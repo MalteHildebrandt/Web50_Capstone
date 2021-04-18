@@ -4,5 +4,6 @@ import os
 
 # Create your views here.
 def index(request):
-    message = os.environ['TEST_ENV_VAR']
-    return HttpResponse(message)
+    #message = os.environ['TEST_ENV_VAR']
+    #return HttpResponse(message)
+    return HttpResponse('Hello World!')
