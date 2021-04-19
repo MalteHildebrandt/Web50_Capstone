@@ -6,4 +6,8 @@ import os
 def index(request):
     #message = os.environ['TEST_ENV_VAR']
     #return HttpResponse(message)
-    return HttpResponse('Hello World!')
+    #return HttpResponse('Hello World!')
+
+    return render(request, "drinx/index.html", {
+        
+    })
