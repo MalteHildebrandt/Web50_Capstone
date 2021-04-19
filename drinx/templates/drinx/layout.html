@@ -36,10 +36,22 @@
                     <a class="nav-link active" aria-current="page" href="#">Bitters</a>
                   </li>
                 </ul>
-                <form class="d-flex">
-                  <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-                  <button class="btn btn-outline-success" type="submit">Search</button>
-                </form>
+                <ul class="navbar-nav  mb-2 mb-lg-0">
+                  <li class="nav-item d-flex">
+                    <a class="nav-link" aria-current="page" href="#">
+                      <img src="{% static 'drinx/images/cart.svg' %}">
+                      Cart
+                      <span class="badge bg-primary">empty</span>
+                    </a>
+                  </li>
+                  <li class="nav-item d-flex">
+                    <a class="nav-link" aria-current="page" href="#">
+                      <img src="{% static 'drinx/images/door-open.svg' %}">
+                      Login
+                    </a>
+                  </li>
+                </ul>
+               
               </div>
             </div>
           </nav>
