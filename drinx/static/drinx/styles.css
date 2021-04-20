@@ -18,3 +18,10 @@
  .navbar-toggler:not(.collapsed) .navbar-toggler-icon {
     display: none;
  }
+
+ .container-log {
+    padding-left: 2%;
+    padding-right: 2%;
+    width:500px;
+    max-width:100%;
+ }

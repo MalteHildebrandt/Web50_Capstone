@@ -1,0 +1,53 @@
+{% extends "drinx/layout.html" %}
+{% load static %}
+
+
+{% block body %}
+
+    <div class="container-log">
+        <h2 style="margin-top: 20px; margin-bottom:25px;">Register</h2>
+
+        <form action="{% url 'register' %}" method="post">
+            {% csrf_token %}
+                <input autofocus class="form-control" type="email" name="email" placeholder="Email Address" style="margin-bottom:10px;" required>
+                <div class="input-group">
+                    <div class="col-5">
+                        <input autofocus class="form-control" type="text" name="first_name" placeholder="First Name" style="margin-bottom:10px;" required>
+                    </div>
+                    <div class="col">    
+                        <input autofocus class="form-control" type="text" name="last_name" placeholder="Last Name" style="margin-bottom:10px;" required>
+                    </div>
+                </div>
+                <div class="input-group">
+                    <div class="col-9">
+                        <input autofocus class="form-control" type="text" name="street" placeholder="Street" style="margin-bottom:10px;" required>
+                    </div>
+                    <div class="col">    
+                        <input autofocus class="form-control" type="text" name="house_number" placeholder="No." style="margin-bottom:10px;" required>
+                    </div>
+                </div>
+                <div class="input-group">
+                    <div class="col-3">
+                        <input autofocus class="form-control" type="text" name="zipcode" placeholder="Zipcode" pattern="[0-9]{5}" title="5 digit zip code" style="margin-bottom:10px;" required>
+                    </div>
+                    <div class="col">    
+                        <input autofocus class="form-control" type="text" name="city" placeholder="City" style="margin-bottom:10px;" required>
+                    </div>
+                </div>
+                <input class="form-control" type="password" name="password" placeholder="Password" style="margin-bottom:10px;" required>
+                <input class="form-control" type="password" name="confirmedpassword" placeholder="Confirm Password" style="margin-bottom:20px;" required>
+                <input class="btn btn-primary" type="submit" value="Register">
+            
+        </form>
+
+        {% if message %}
+            <div class="alert alert-warning" style="margin-top:10px;">{{ message }}</div>
+        {% endif %}
+
+        Already have an account? <a href="{% url 'login' %}">Log In here.</a>
+    </div>
+{% endblock %}
+
+
+
+
