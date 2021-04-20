@@ -1,0 +1,20 @@
+.navbar-toggler-icon {
+    font-size: 0.6em;
+}
+
+.close-icon {
+    font-size: 0.6em;
+}
+
+.navbar-toggler:focus {
+    outline: none;
+    box-shadow: none;
+}
+
+.navbar-toggler.collapsed .close-icon {
+    display: none;
+ }
+
+ .navbar-toggler:not(.collapsed) .navbar-toggler-icon {
+    display: none;
+ }
