@@ -3,8 +3,10 @@ from django.http import HttpResponse, HttpResponseRedirect, JsonResponse
 from django.contrib.auth import authenticate, login, logout
 from django.urls import reverse
 from django.db import IntegrityError
-from .models import User
+from .models import User, Category
 from django.contrib.admin.views.decorators import staff_member_required
+from django.views.decorators.csrf import csrf_exempt
+import json
 import os
 
 # Create your views here.
@@ -82,4 +84,60 @@ def backend_index(request):
 @staff_member_required
 def backend_categories(request):
 
-    return render(request, "drinx/backend_categories.html")
+    categories =  Category.objects.all()
+
+    return render(request, "drinx/backend_categories.html", {
+        "categories" : categories
+    })
+
+
+# API views
+
+@csrf_exempt
+@staff_member_required
+def savecategory(request):
+
+    # saving must be via POST
+    if request.method != "POST":
+        return JsonResponse({"error": "POST request required."}, status=400)
+
+    # get the data
+    data = json.loads(request.body)
+    action = data.get("action")
+    id = data.get("id")
+    name = data.get("name")
+    description = data.get("description")
+    is_active = data.get("is_active") or False
+    display_order = data.get("display_order")
+
+    try:
+            if action == "update":
+                category = Category.objects.get(id=id)
+                category.name = name
+                category.description = description
+                category.is_active = is_active
+                category.display_order = display_order
+                category.save()
+                return JsonResponse({
+                            "message": "successfully updated",
+                            },  status=201)
+            elif action == "insert":
+                category = Category(name=name, description=description, is_active=is_active, display_order=display_order)
+                category.save()
+                id=category.id
+                return JsonResponse({
+                            "message": "successfully new addded",
+                            "newid": id
+                            },  status=201)
+            elif action == "delete":
+                Category.objects.filter(id=id).delete()
+                return JsonResponse({
+                            "message": "successfully delted",
+                            },  status=201)
+            else: pass
+
+
+    except Category.DoesNotExist:
+        return JsonResponse({
+            "error": f"Category with id {id} does not exist."
+        }, status=400)

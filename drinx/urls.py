@@ -7,5 +7,9 @@ urlpatterns = [
     path("logout", views.logout_view, name="logout"),
     path("register", views.register_view, name="register"),
     path("backend", views.backend_index, name="backend_index"),
-    path("backend\categories", views.backend_categories, name="backend_categories")
+    path("backend\categories", views.backend_categories, name="backend_categories"),
+
+    #api urls
+    path("savecategory", views.savecategory, name="savecategory")
+    
 ]
