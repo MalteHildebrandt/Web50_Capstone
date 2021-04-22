@@ -15,7 +15,11 @@ def index(request):
     #return HttpResponse(message)
     #return HttpResponse('Hello World!')
 
-    return render(request, "drinx/index.html")
+    categories =  Category.objects.all().order_by('display_order')
+
+    return render(request, "drinx/index.html", {
+        "categories": categories
+    })
 
 def login_view(request):
     if request.method == "POST":
@@ -84,7 +88,7 @@ def backend_index(request):
 @staff_member_required
 def backend_categories(request):
 
-    categories =  Category.objects.all()
+    categories =  Category.objects.all().order_by('id')
 
     return render(request, "drinx/backend_categories.html", {
         "categories" : categories

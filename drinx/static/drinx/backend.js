@@ -1,12 +1,14 @@
-function form_changed(id) {
-    document.getElementById(`save_btn_${id}`).hidden = false;
+function form_changed(e) {
+    const saveForm = e.target.form;
+    saveForm.elements['save'].hidden = false;   
 }
 
-function form_save(e, id) {
+function form_save(e) {
     
     // get Form data
-    const saveButton = document.getElementById(`save_btn_${id}`);
-    const saveForm = document.getElementById(`category_form_${id}`);
+    const saveForm = e.submitter.form;
+    const saveButton = saveForm.elements['save'];
+    const deleteButton = saveForm.elements['delete'];
     const saveFormData = new FormData(saveForm);
 
     // prevent Form from actually submiting
@@ -14,6 +16,10 @@ function form_save(e, id) {
 
     // determine which action to perform on the api
     var action = 'update';
+
+    // clear the popup animation class if still present from previous round
+    var popup = document.getElementById("myPopup");
+    popup.classList.remove("show");
 
     if (e.submitter.value === 'Delete') {
         action = 'delete';
@@ -40,16 +46,28 @@ function form_save(e, id) {
         if (response.ok) {
             response.json()
             .then(result => {
-                //alert('dataset updated');
-                saveButton.hidden = true;
                 if (action === 'insert') {
+                    //insert new empty row
+                    var newForm = saveForm.cloneNode(true);
+                    newForm.elements['name'].value = '';
+                    newForm.elements['description'].value = '';
+                    newForm.elements['is_active'].checked = false;
+                    newForm.elements['display_order'].value = '';
+                    saveForm.parentElement.appendChild(newForm);
+
+                    //update the saved row
                     saveButton.value ='Save';
+                    deleteButton.hidden = false;
                     saveForm.elements['id'].value = result.newid;
+
                 }
                 if (action === 'delete') {
-                    const rowIndex = e.submitter.parentElement.parentElement.rowIndex;
-                    e.submitter.parentElement.parentElement.parentElement.parentElement.deleteRow(rowIndex);
+                    saveForm.remove();
                 }
+                
+                //show success Popup
+                popup.classList.toggle("show");
+                saveButton.hidden = true;
             })
             .catch(error => {
                 alert(error);

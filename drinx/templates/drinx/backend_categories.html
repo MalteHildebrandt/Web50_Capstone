@@ -6,48 +6,55 @@
     <div class="category-body">
         <h4>Categories</h4>
         <small>Change or add new categories</small>
-            <table style="table-layout:auto;">
-                <tr>
-                    <th>Id</th>
-                    <th>Category name</th>
-                    <th>Description</th>
-                    <th>Active</th>
-                    <th>Rank</th>
-                    <th>Save</th>
-                </tr>
-                {% for category in categories %}
-                    <tr>
-                        <form onsubmit="form_save(event, {{ category.id }})" id="category_form_{{ category.id }}" action="{% url 'backend_categories' %}" method="post">
-                            {% csrf_token %}
-                            <td><input autofocus class="form-control" type="text" name="id" placeholder="id"  value ="{{ category.id }}" required readonly="true"></td>
-                            <td><input onkeydown="form_changed({{ category.id }})" autofocus class="form-control" type="text" name="name" placeholder="Category name"  value ="{{ category.name }}" required></td>
-                            <td><input onkeydown="form_changed({{ category.id }})" autofocus class="form-control" type="text" name="description" placeholder="Description"  value ="{{ category.description }}" required></td>
-                            {% if category.is_active %}
-                                <td><input onclick="form_changed({{ category.id }})" autofocus type="checkbox" name="is_active" placeholder="True/False"  value ="True" checked></td>
-                            {% else %}
-                                <td><input onclick="form_changed({{ category.id }})" autofocus type="checkbox"  name="is_active" placeholder="True/False"  value ="True"></td>
-                            {% endif %} 
-                            <td><input onkeydown="form_changed({{ category.id }})" onclick="form_changed({{ category.id }})" autofocus class="form-control" type="number" min="1" max="99" name="display_order" placeholder="23"  value ="{{ category.display_order }}" required></td>
-                            <td>
-                                <input id="save_btn_{{ category.id }}" class="btn btn-primary" type="submit" value="Save" hidden>
-                                <input id="delete_btn_{{ category.id }}" class="btn btn-danger" type="submit" value="Delete">
-                            </td>
-                        </form>
-                    </tr>
-                {% endfor %}
-                <tr>
-                    <form onsubmit="form_save(event, 'new')" id="category_form_new" action="{% url 'backend_categories' %}" method="post">
-                        {% csrf_token %}
-                        <td><input autofocus class="form-control" type="text" name="id" value="auto" readonly="true"></td>
-                        <td><input autofocus class="form-control" type="text" name="name" placeholder="Category name" required></td>
-                        <td><input autofocus class="form-control" type="text" name="description" placeholder="Description" required></td>
-                        <td><input autofocus type="checkbox" name="is_active" placeholder="True/False" value ="True"></td>
-                        <td><input autofocus class="form-control" type="number" min="1" max="99" name="display_order" placeholder="int" required></td>
-                        <td><input id="save_btn_new"class="btn btn-primary" type="submit" value="Add"></td>
-                    </form>
-                </tr>
-            </table>
-    </div>
+            
+        <div class="grid-container gridhead">
+            <div class="grid-item">Id</div>
+            <div class="grid-item">Category name</div>
+            <div class="grid-item">Description</div>  
+            <div class="grid-item">Active</div>
+            <div class="grid-item">Rank</div>
+            <div class="grid-item item1">Update</div>
+        </div>
+        
+        {% for category in categories %}
+            <form onsubmit="form_save(event)" class="grid-container" action="{% url 'backend_categories' %}" method="post">   
+                <input autofocus class="grid-item" type="text" name="id" placeholder="id"  value ="{{ category.id }}" required readonly="true">
+                <input onkeydown="form_changed(event)" autofocus class="grid-item" type="text" name="name" placeholder="Category name"  value ="{{ category.name }}" required>
+                <input onkeydown="form_changed(event)" autofocus class="grid-item" type="text" name="description" placeholder="Description"  value ="{{ category.description }}" required>
+                {% if category.is_active %}
+                    <div class="checkbox-format">
+                        <input onclick="form_changed(event)" class="grid-item" autofocus type="checkbox" name="is_active" value ="True" checked>
+                    </div>
+                {% else %}
+                    <div class="checkbox-format">
+                        <input onclick="form_changed(event)" class="grid-item" autofocus type="checkbox"  name="is_active" value ="True">
+                    </div>
+                {% endif %} 
+                <input onkeydown="form_changed(event)" onclick="form_changed(event)" autofocus class="grid-item" type="number" min="1" max="99" name="display_order" placeholder="23"  value ="{{ category.display_order }}" required>
+                <div class="checkbox-format">
+                    <input class="btn btn-danger grid-item" type="submit" name ="delete" value="Delete">
+                </div>
+                <div class="checkbox-format">
+                    <input class="btn btn-primary grid-item" type="submit" name="save" value="Save" hidden>
+                </div>
+            </form>
+        {% endfor %}
+        <form onsubmit="form_save(event)" class="grid-container" action="{% url 'backend_categories' %}" method="post">   
+            <input autofocus class="grid-item" type="text" name="id" placeholder="id"  value ="auto" required readonly="true">
+            <input onkeydown="form_changed(event)" autofocus class="grid-item" type="text" name="name" placeholder="Category name"  required>
+            <input onkeydown="form_changed(event)" autofocus class="grid-item" type="text" name="description" placeholder="Description" required>
+            <div class="checkbox-format">
+                <input onclick="form_changed(event)" class="grid-item" autofocus type="checkbox" name="is_active" value ="True">
+            </div>
+            <input onkeydown="form_changed(event)" onclick="form_changed(event)" autofocus class="grid-item" type="number" min="1" max="99" name="display_order" placeholder="int" required>
+            <div class="checkbox-format">
+                <input class="btn btn-danger grid-item" type="submit" name ="delete" value="Delete" hidden>
+            </div>
+            <div class="checkbox-format">
+                <input class="btn btn-primary grid-item" type="submit" name="save" value="Add">
+            </div>
+        </form>
 
+        <div class="popuptext" id="myPopup">Successfully updated!</div>
    
 {% endblock %}

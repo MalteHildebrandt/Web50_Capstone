@@ -46,5 +46,73 @@ table {
     background-color: #dddddd;
   }
 
+  .popuptext {
+    visibility: hidden;
+    width: 200px;
+    height: 80px;
+    background-color: green;
+    color: #fff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 6px;
+    z-index: 1;
+    position: fixed;
+    right: 50px;
+    bottom: 100 px;
+  }
+
+ .show {
+    animation-name: popup;
+    animation-duration: 2s;
+  }
+
+  @keyframes popup {
+    0% {
+      opacity: 0;
+      visibility: visible;
+    }
+    25% {
+      opacity: 1;
+      visibility: visible;
+    }
+    75% {
+      opacity: 1;
+      visibility: visible;
+    }
+    100% {
+      opacity: 0;
+    }
+  }
+
+  .grid-container {
+    display: grid;
+    grid-template-columns: 70px 1fr 2fr 70px 70px 70px 70px;
+    padding: 0;
+  }
+  
+  .gridhead {
+    position: sticky;
+    top: 0;
+    font-weight: bold;
+    background-color: lightgrey;
+  }
+  
+  .grid-item {
+    border: 1px solid rgba(0, 0, 0, 0.8);
+    font-family: arial, sans-serif;
+    padding: 10px;
+  }
+
+  .item1 {
+    grid-column-start: 6;
+    grid-column-end: 8;
+  }
+
+  .checkbox-format {
+    border: 1px solid rgba(0, 0, 0, 0.8);
+    padding: 0;
+    text-align:center;
+  }
 
  
