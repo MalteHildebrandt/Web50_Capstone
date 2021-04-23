@@ -1,0 +1,23 @@
+{% extends "drinx/backend_layout.html" %}
+{% load static %}
+
+
+{% block body %}   
+    
+    <h1>Hello Articles</h1>
+
+    <form action="{% url 'backend_articles' %}" enctype="multipart/form-data" method="post">
+        {% csrf_token %}
+        <input type="file" name="filename">
+        <input type="submit" name="fileupload" value="file">
+    </form>
+
+    {% if myimage %}
+        <img src="{{MEDIA_URL}}{{ myimage }}" alt="empty">
+    {% endif %}
+   
+{% endblock %}
+
+{% block script %}
+    <script src="{% static 'drinx/backend_articles.js' %}"></script>
+{% endblock %}

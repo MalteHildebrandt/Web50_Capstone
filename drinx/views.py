@@ -3,11 +3,12 @@ from django.http import HttpResponse, HttpResponseRedirect, JsonResponse
 from django.contrib.auth import authenticate, login, logout
 from django.urls import reverse
 from django.db import IntegrityError
-from .models import User, Category
+from .models import User, Category, Image
 from django.contrib.admin.views.decorators import staff_member_required
 from django.views.decorators.csrf import csrf_exempt
 import json
-import os
+
+
 
 # Create your views here.
 def index(request):
@@ -15,7 +16,7 @@ def index(request):
     #return HttpResponse(message)
     #return HttpResponse('Hello World!')
 
-    categories =  Category.objects.all().order_by('display_order')
+    categories =  Category.objects.all().filter(is_active=True).order_by('display_order')
 
     return render(request, "drinx/index.html", {
         "categories": categories
@@ -92,6 +93,26 @@ def backend_categories(request):
 
     return render(request, "drinx/backend_categories.html", {
         "categories" : categories
+    })
+
+
+@staff_member_required
+def backend_articles(request):
+
+    if request.method == 'POST' and request.FILES['filename']:
+        myimage = Image(image_large=request.FILES['filename'])
+        myimage.save()
+        """
+        fs = FileSystemStorage()
+        filename = fs.save(myfile.name, myfile)
+        uploaded_file_url = fs.url(filename)
+        """
+        return render(request, "drinx/backend_articles.html", {
+            'myimage': myimage.image_large
+        })
+
+    return render(request, "drinx/backend_articles.html", {
+        
     })
 
 
