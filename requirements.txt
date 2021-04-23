@@ -5,3 +5,4 @@ dj_database_url==0.5.0
 django_heroku==0.3.1
 django_storages==1.11.1
 pillow==8.0.1
+boto3==1.17.56
