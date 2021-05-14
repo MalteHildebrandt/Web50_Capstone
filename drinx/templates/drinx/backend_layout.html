@@ -16,7 +16,7 @@
         <nav class="nav nav-pills flex-column flex-sm-row">
             <a class="flex-sm-fill text-sm-center nav-link active" href="{% url 'backend_index' %}">Overview</a>
             <a class="flex-sm-fill text-sm-center nav-link" href="{% url 'backend_categories' %}">Manage Categories</a>
-            <a class="flex-sm-fill text-sm-center nav-link" href="{% url 'backend_articles' %}">Manage Articles</a>
+            <a class="flex-sm-fill text-sm-center nav-link" href="{% url 'backend_articles' category_id=0 %}">Manage Articles</a>
             <a class="flex-sm-fill text-sm-center nav-link" href="#">Manage Tours</a>
             <a class="flex-sm-fill text-sm-center nav-link" href="{% url 'index' %}">Back To Frontend</a>
             

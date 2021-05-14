@@ -1,0 +1,41 @@
+{% extends "drinx/layout.html" %}
+{% load static %}
+
+
+{% block body %}
+    
+<div class="flex-container">
+    {% for article in articles %}
+        <div>
+            <div class="article-heading">{{ article.name }}</div>
+            <image src="{{ MEDIA_URL }}{{ article.image }}" width="100%" style="padding: 10px">
+            <div class="grid-container-articles">
+                <div>
+                    {{ article.description_short }}
+                    <br>
+                    {{ article.package_qty}} x {{ article.content_qty }} {{ article.content_qty_unit }}
+                    <br>
+                    <strong>{{ article.price}} € </strong>
+                </div>
+                <div>
+                    <input id="CartQty_{{ article.id }}" style="display:block; width:40px" type="number" value="1" min="1" max="50" widht="5" step="1">
+                    <input class="addToCart" data-id={{ article.id }} type="image" src="{% static 'drinx/images/cart.svg' %}"> <small>add</small>
+                    <div id="inCartQty_{{ article.id }}">
+                        {% if request.session.cart|get_item:article.id != None %}
+                            {{ request.session.cart|get_item:article.id }} in cart
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    {% endfor %}
+</div>
+
+    
+{% endblock %}
+
+{% block script %}
+    <script src="{% static 'drinx/articles.js' %}"></script>
+{% endblock %}
+
+

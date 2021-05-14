@@ -3,7 +3,7 @@
 
 
 {% block body %}
-    <div id="carouselExampleCaptions" class="carousel slide carousel-fade" data-bs-ride="carousel" style="-webkit-text-stroke-width: 1px;-webkit-text-stroke-color: black;">
+    <div id="carouselExampleCaptions" class="carousel slide carousel-fade" data-bs-ride="carousel">
         <div class="carousel-inner">
         <div class="carousel-item active" data-bs-interval="5000">
             <img src="{% static 'drinx/images/SliderImage1.jpg' %}" class="d-block w-100" alt="...">
@@ -37,23 +37,28 @@
         </button>
     </div>
 
-    <p>Drink</p>
-    <p>Drink</p>
-    <p>Drink</p>
-    <p>Drink</p>
-    <p>Drink</p>
-    <p>Drink</p>
-    <p>Drink</p>
-    <p>Drink</p>
-    <p>Drink</p>
-    <p>Drink</p>
-    <p>Drink</p>
-    <p>Drink</p>
-    <p>Drink</p>
-    <p>Drink</p>
-    <p>Drink</p>
-    <p>Drink</p>
-    <p>Drink</p>
+    <h2 style="margin-top:20px; margin-left:10px;">Our Categories</h1>
+    
+    {% for category in categories %}
+        <div class="category-selector">
+            <a style="text-decoration: none; color: black;" href="{% url 'articles' category.id %}">
+                <div>
+                    <strong>{{ category.name }}</strong>
+                    <br>
+                    {{ category.description }}
+                </div>     
+            </a>
+        </div>
+    {% endfor %}
+    <div class="category-selector">
+        <a style="text-decoration: none; color: black;" href="{% url 'articles' 0 %}">
+            <div>
+                <strong>All</strong>
+                <br>
+                ...or if you like have a look at all our articles
+            </div>     
+        </a>
+    </div>
     
     
     

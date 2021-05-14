@@ -1,23 +1,111 @@
 {% extends "drinx/backend_layout.html" %}
 {% load static %}
-
-
-{% block body %}   
-    
-    <h1>Hello Articles</h1>
-
-    <form action="{% url 'backend_articles' %}" enctype="multipart/form-data" method="post">
-        {% csrf_token %}
-        <input type="file" name="filename">
-        <input type="submit" name="fileupload" value="file">
-    </form>
-
-    {% if myimage %}
-        <img src="{{MEDIA_URL}}{{ myimage }}" alt="empty">
-    {% endif %}
    
+    
+{% block body %}
+
+<div class="category-body">
+    <div style="margin-bottom: 20px;">
+        <h4>Articles</h4>
+        <small>Change or add new Articles by clicking on them</small>
+        <br>
+        Filter for categories:
+        <a href="{% url 'backend_articles' 0 %}">All</a>
+        {% for category in categories %}
+            <a href="{% url 'backend_articles' category.id %}">{{ category.name }}</a>
+        {% endfor %}
+    </div>
+    <div class="grid-container-articles">
+        <div class="grid-item gridhead">Id</div>
+        <div class="grid-item gridhead">Name</div>
+        <div class="grid-item gridhead">Short Description</div>  
+        <div class="grid-item gridhead">Image</div>
+
+        {% for article in articles %}
+            <div class="grid-item article" data-id={{ article.id }}>{{ article.id }}</div>
+            <div class="grid-item article" data-id={{ article.id }}>{{ article.name }}</div>
+            <div class="grid-item article" data-id={{ article.id }}>{{ article.description_short }}</div>  
+            <div class="grid-item article" data-id={{ article.id }}><img src="{{ MEDIA_URL }}{{ article.image }}" width="50" height=auto alt="empty"></div>
+        {% endfor %}
+    </div>
+</div>
+
+<div class="editArticle">
+    <form id="articleForm">
+        <div class="row">
+            <div class="col-2 col-md-1" style="font-weight: bold;">ID <br> 27</div>
+            <div class="col-10 col-md-3">
+                <label for="formArticleName">Article Name</label>
+                <input type="text" class="form-control" id="formArticleName" placeholder="Article name" required>
+            </div>
+            <div class="col-2 col-md-1">
+                <label for="formContentQty">Filling</label>
+                <input type="number" class="form-control" id="formContentQty" min="0" max="999" step="0.01" placeholder="qty" required>
+            </div>
+            <div class="col-2 col-md-1">
+                <label for="formContentUnit">Unit</label>
+                <select class="form-control" id="formContentUnit" required>
+                    {% for unit in units %}
+                        <option id="unit_{{ unit.id }}">{{ unit.name }} {{ unit.description }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="col-2 col-md-1">
+                <label for="formPackageQty">PackageQty</label>
+                <input type="number" class="form-control" id="formPackageQty" min="0" max="999" step="1" placeholder="qty" required>
+            </div>
+            <div class="col-2 col-md-2">
+                <label for="formPrice">Price</label>
+                <input type="number" class="form-control" id="formPrice" min="0" max="999" step="0.01" placeholder="€" required>
+            </div>
+            <div class="col-2 col-md-1">
+                <label for="formStock">Stock</label>
+                <input type="number" class="form-control" id="formStock" step="1" placeholder="qty" required>
+            </div>
+            <div class="col-2 col-md-1">
+                <label for="formIs_active">Active</label>
+                <br>
+                <input type="checkbox" class="form-check-input" id="formIs_active" value="True">
+            </div>
+            
+        </div>
+        <div class="row">
+            <div class="col-12 col-md-3">
+                <label for="formArticleDescriptionShort">Short description</label>
+                <input type="text" class="form-control" id="formArticleDescriptionShort" placeholder="Short description" required>
+            </div>
+            <div class="col-12 col-md-9">
+                <label for="formDescription">Description</label>
+                <input type="text" class="form-control" id="formDescription" placeholder="Description" required>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-12 col-md-6">
+                <div style="font-weight: bold;">
+                    Image
+                </div>
+                <img id="formImageDisplay" data-media="{{ MEDIA_URL }}" src="#" width="auto" height="150" alt="empty">
+                <br>
+                <input id="formImageSelect" type="file" name="image" accept="image/*">
+            </div>
+            <div class="col-12 col-md-6">
+                <label for="formCategories">Categories</label>
+                <select multiple class="form-control" id="formCategories" required>
+                    {% for category in categories %}
+                        <option id="category_{{ category.id }}">{{ category.name }}</option>
+                    {% endfor %}
+            </div>
+        </div>
+        <input class="btn btn-primary mt-2" type="submit" name="update" value="Update">
+        <input class="btn btn-danger mt-2" type="submit" name="delte" value="Delete">
+        <input class="btn btn-success mt-2" type="submit" name="new" value="New">
+    </form>
+</div>
+
+
+
 {% endblock %}
 
 {% block script %}
-    <script src="{% static 'drinx/backend_articles.js' %}"></script>
+<script src="{% static 'drinx/backend_articles.js' %}"></script>
 {% endblock %}

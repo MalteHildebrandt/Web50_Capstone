@@ -1,0 +1,48 @@
+{% extends "drinx/layout.html" %}
+{% load static %}
+
+
+{% block body %}
+    
+<div>
+    <h4>Cart - Checkout</h4>
+    <hr>
+    <div class="grid-cart-container">
+        {% for articleId, articleInfo in articlesInCart.items %}
+            <div class="grid-cart-item container_{{ articleId }}" style="text-align:center;">
+                <button class="btn-p" data-id={{ articleId }} style="background-color: #89e689; border-radius:10%; width:30px; border:none;">+</button>
+                <div id="cartQty_{{ articleId }}">
+                    {{ articleInfo.cartQty }}
+                </div>
+                <button class="btn-m" data-id={{ articleId }} style="background-color: lightgrey; border-radius:10%; width:30px; border:none;">-</button>
+            </div>
+            <div class="grid-cart-item container_{{ articleId }}">
+                <image src="{{ MEDIA_URL }}{{ articleInfo.image }}" height="100px" style="padding: 10px"></image>
+            </div>
+            <div class="grid-cart-item container_{{ articleId }}">
+                <strong>{{ articleInfo.name }}</strong>
+                <br>
+                <span id="price_{{ articleId }}"> {{ articleInfo.price }} €</span>
+            </div>
+            <div class="grid-cart-item container_{{ articleId }}">
+                <strong id="totalPrice_{{ articleId }}">{{ articleInfo.totalPrice }}</strong><strong>€</strong>
+            </div>       
+        {% endfor %}
+        <div class="grid-cart-total" style="border-top: double;">
+            <strong>Grand Total:</strong>
+        </div>
+        <div style="border-top: double;">
+            <strong id="grandTotal">{{ grandTotal }}</strong><strong>€</strong>
+        </div>
+    </div>
+    <hr>
+</div>
+
+    
+{% endblock %}
+
+{% block script %}
+    <script src="{% static 'drinx/cart.js' %}"></script>
+{% endblock %}
+
+
